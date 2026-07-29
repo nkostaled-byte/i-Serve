@@ -1,0 +1,22 @@
+{
+  "short_name": "i-Serve",
+  "name": "i-Serve — Premium Home Services",
+  "description": "On-demand home services, instant booking and live real-time GPS tracking.",
+  "icons": [
+    {
+      "src": "https://firebasestorage.googleapis.com/v0/b/i-serve-bcf9a.appspot.com/o/assets%2Fi-Serve%20logo%20512x512.webp?alt=media&token=3d780976-dde8-48c0-b3e3-ec8f5fd9c54a",
+      "type": "image/webp",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://firebasestorage.googleapis.com/v0/b/i-serve-bcf9a.appspot.com/o/assets%2Fi-Serve%20logo%20512x512.webp?alt=media&token=3d780976-dde8-48c0-b3e3-ec8f5fd9c54a",
+      "type": "image/webp",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#F6F8FB",
+  "theme_color": "#27C2D4",
+  "display": "standalone",
+  "orientation": "portrait"
+}

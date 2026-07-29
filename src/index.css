@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: 'Apercu', 'Aperçu', 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
+    --font-serif: 'Apercu', 'Aperçu', 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
+
+    --bg-main: #F6F8FB;
+    --bg-secondary: #FFFFFF;
+    --bg-surface: #FFFFFF;
+    --bg-nav: rgba(255, 255, 255, 0.72);
+    --text-primary: #1E293B;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --divider: #E2E8F0;
+    --accent-blue: #27C2D4;
+  }
+
+  .dark {
+    --bg-main: #070B14;
+    --bg-secondary: #0E1628;
+    --bg-surface: #131E33;
+    --bg-elevated: #17243C;
+    --bg-nav: rgba(14, 22, 40, 0.85);
+    --text-primary: #FFFFFF;
+    --text-secondary: #B8C3D9;
+    --text-muted: #7F8DA8;
+    --divider: rgba(255, 255, 255, 0.06);
+    --accent-blue: #21C7F6;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Prevent auto-zooming when clicking or focusing input text fields on mobile devices */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+    touch-action: manipulation;
+  }
+
+  h1, h2, h3, .font-serif-title {
+    font-family: var(--font-sans);
+  }
+}
+
+.font-serif, .font-sans {
+  font-family: 'Apercu', 'Aperçu', 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
+}
+
+/* Custom Soft Shadows as per prompt rules: Soft shadows only, Elevation in dark mode */
+.soft-shadow {
+  box-shadow: 0 12px 32px -8px rgba(39, 194, 212, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+}
+
+.dark .soft-shadow {
+  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.25);
+}
+
+.card-shadow {
+  box-shadow: 0 10px 28px -6px rgba(31, 41, 55, 0.06), 0 2px 8px -2px rgba(0, 0, 0, 0.02);
+}
+
+.dark .card-shadow {
+  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.25);
+}
+
+.float-shadow {
+  box-shadow: 0 20px 40px -10px rgba(39, 194, 212, 0.22), 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+}
+
+.dark .float-shadow {
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.35);
+}
+
+.glow-shadow {
+  box-shadow: 0 0 25px rgba(39, 194, 212, 0.35);
+}
+
+.dark .glow-shadow {
+  box-shadow: 0 0 15px rgba(33, 199, 246, 0.25);
+}
+
+/* Glassmorphic Dock */
+.frosted-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+.dark .frosted-glass {
+  background: rgba(14, 22, 40, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+/* Radar Animation for Searching experience */
+@keyframes radar-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.animate-radar-1 {
+  animation: radar-pulse 3s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.animate-radar-2 {
+  animation: radar-pulse 3s cubic-bezier(0, 0.2, 0.8, 1) 1s infinite;
+}
+
+.animate-radar-3 {
+  animation: radar-pulse 3s cubic-bezier(0, 0.2, 0.8, 1) 2s infinite;
+}
+
+/* Wave animation for Splash */
+@keyframes wave-flow {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(1.08);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+.animate-wave-1 {
+  animation: wave-flow 8s linear infinite;
+}
+
+.animate-wave-2 {
+  animation: wave-flow 12s linear infinite reverse;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Leaflet Custom Map Styling */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background-color: #F6F8FB;
+  z-index: 10;
+}
+
+.dark .leaflet-container {
+  background-color: #0B0F17 !important;
+}
+
+.leaflet-control-zoom, .leaflet-control-attribution {
+  display: none !important;
+}
+
+/* Smooth theme transitions */
+.theme-transition {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
