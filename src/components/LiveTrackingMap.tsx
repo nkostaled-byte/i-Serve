@@ -268,7 +268,7 @@ export const LiveTrackingMap: React.FC<LiveTrackingMapProps> = ({
       <div ref={mapContainerRef} className="absolute inset-0 z-0 h-full w-full" />
 
       {/* Top Floating Glass Banner: Provider, ETA, Distance, Category & GPS status */}
-      <div className="relative z-20 pt-5 px-4 flex items-center space-x-2">
+      <div className="relative z-20 pt-[calc(env(safe-area-inset-top)+1.25rem)] px-4 flex items-center space-x-2">
         <button
           onClick={onBack || onCancelRequest}
           className="px-3 py-2 bg-white/95 dark:bg-[#111827]/95 backdrop-blur-md rounded-xl text-slate-800 dark:text-white float-shadow hover:bg-white dark:hover:bg-[#1A2333] transition-colors border border-slate-200/80 dark:border-white/10 text-xs font-semibold flex items-center space-x-1 shrink-0"

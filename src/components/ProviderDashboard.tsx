@@ -51,9 +51,14 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
   }, [incomingJob, isOnline]);
 
   return (
-    <div className="pb-28 pt-4 px-4 max-w-md mx-auto space-y-5 font-sans">
+    <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-5 font-sans">
       {/* Top Header Controls */}
-      <div className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+        className="flex items-center justify-between"
+      >
         <div className="flex items-center space-x-3">
           <div className="relative">
             <img
@@ -86,10 +91,13 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
           <span>Customer View</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
-      </div>
+      </motion.div>
 
       {/* Availability Status Banner */}
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
         className={`p-4 rounded-[28px] card-shadow flex items-center justify-between text-white transition-all duration-300 ${
           isOnline ? 'bg-gradient-to-r from-emerald-600 to-teal-700' : 'bg-slate-800'
         }`}
@@ -121,10 +129,15 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
             isOnline ? 'translate-x-6' : 'translate-x-0'
           }`} />
         </button>
-      </div>
+      </motion.div>
 
       {/* Today's & Weekly Earnings Overview */}
-      <div className="bg-gradient-to-tr from-[#3F73C7] via-[#3561ab] to-[#4340A8] p-5 rounded-[32px] text-white float-shadow space-y-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+        className="bg-gradient-to-tr from-[#3F73C7] via-[#3561ab] to-[#4340A8] p-5 rounded-[32px] text-white float-shadow space-y-4"
+      >
         <div className="flex justify-between items-center text-xs text-cyan-200 font-medium">
           <span className="flex items-center space-x-1">
             <TrendingUp className="w-3.5 h-3.5 text-cyan-300" />
@@ -167,10 +180,15 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* Performance Summary Cards */}
-      <div className="grid grid-cols-4 gap-2">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
+        className="grid grid-cols-4 gap-2"
+      >
         <div className="bg-white dark:bg-[#131E33] p-3 rounded-2xl text-center border border-slate-100 dark:border-white/[0.06] shadow-sm">
           <div className="flex items-center justify-center space-x-0.5 text-amber-500 font-bold text-xs">
             <Star className="w-3.5 h-3.5 fill-amber-400" />
@@ -199,7 +217,7 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
           </div>
           <span className="text-[9px] text-slate-400 dark:text-[#7F8DA8] block mt-0.5">Response</span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Incoming Request Alert Banner */}
       <AnimatePresence>

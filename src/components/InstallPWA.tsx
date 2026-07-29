@@ -48,7 +48,7 @@ export const InstallPWA: React.FC<InstallPWAProps> = ({ onProceed }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F8FB] flex flex-col justify-between p-6 max-w-md mx-auto relative overflow-hidden">
+    <div className="min-h-screen bg-[#F6F8FB] flex flex-col justify-between px-6 pb-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] max-w-md mx-auto relative overflow-hidden">
       {/* Background ambient glow */}
       <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#27C2D4]/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#3F73C7]/20 rounded-full blur-3xl pointer-events-none" />

@@ -53,7 +53,7 @@ export const ProviderRegistration: React.FC<ProviderRegistrationProps> = ({ onCo
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F8FB] flex flex-col justify-between p-6 max-w-md mx-auto relative">
+    <div className="min-h-screen bg-[#F6F8FB] flex flex-col justify-between px-6 pb-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] max-w-md mx-auto relative">
       {/* Top Bar */}
       <div className="pt-4 z-10">
         <div className="flex items-center justify-between mb-3">

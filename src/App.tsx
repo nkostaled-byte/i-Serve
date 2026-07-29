@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   AppScreen, 
@@ -71,6 +71,22 @@ export default function App() {
 
   const CUSTOMER_TAB_SCREENS: AppScreen[] = ['home', 'requests_history', 'messages_list', 'customer_profile'];
   const PROVIDER_TAB_SCREENS: AppScreen[] = ['provider_dashboard', 'provider_jobs', 'provider_messages', 'provider_profile'];
+
+  // Every screen is stacked in the same grid cell (col-start-1 row-start-1) so AnimatePresence
+  // can cross-fade between them. Because they're all conditionally rendered from a fixed JSX
+  // order (screen #1, #2, #3...), the browser paints later-in-source screens on top of
+  // earlier-in-source ones by default - regardless of which one is actually "current".
+  // That means navigating "backwards" (e.g. from a screen declared later in the file to one
+  // declared earlier, like customer_profile -> home) puts the OLD screen on top of the new one
+  // during the exit animation, which reads as a flicker/flash of the previous page.
+  // This map keeps a monotonically increasing z-index per screen so whichever one is currently
+  // active always paints above everything else, independent of JSX order.
+  const zIndexCounter = useRef(1);
+  const [zIndexMap, setZIndexMap] = useState<Record<string, number>>({ install_wall: 1 });
+  useEffect(() => {
+    zIndexCounter.current += 1;
+    setZIndexMap((prev) => ({ ...prev, [currentScreen]: zIndexCounter.current }));
+  }, [currentScreen]);
 
   // Role switching (Demo mode) - clear history and load root screen of selected role
   const handleSwitchRole = (newRole: 'customer' | 'provider') => {
@@ -223,21 +239,21 @@ export default function App() {
         <AnimatePresence>
           {/* 1. Installation Wall Screen */}
           {currentScreen === 'install_wall' && (
-            <motion.div key="install_wall" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.div key="install_wall" style={{ zIndex: zIndexMap.install_wall }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <InstallPWA onProceed={() => setEntryScreen('splash')} />
           </motion.div>
         )}
 
         {/* 2. Animated Splash Screen */}
         {currentScreen === 'splash' && (
-          <motion.div key="splash" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="splash" style={{ zIndex: zIndexMap.splash }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <SplashScreen onComplete={() => setEntryScreen('choose_experience')} />
           </motion.div>
         )}
 
         {/* 3. Choose Experience Screen */}
         {currentScreen === 'choose_experience' && (
-          <motion.div key="choose_experience" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="choose_experience" style={{ zIndex: zIndexMap.choose_experience }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ChooseExperience
               onSelectRole={(role) => {
                 if (role === 'customer') {
@@ -252,7 +268,7 @@ export default function App() {
 
         {/* 4. Customer Login */}
         {currentScreen === 'customer_login' && (
-          <motion.div key="customer_login" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="customer_login" style={{ zIndex: zIndexMap.customer_login }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <CustomerAuth
               onLoginSuccess={() => handleSwitchRole('customer')}
               onGoToRegister={() => setEntryScreen('customer_register')}
@@ -263,7 +279,7 @@ export default function App() {
 
         {/* 5. Provider Login */}
         {currentScreen === 'provider_login' && (
-          <motion.div key="provider_login" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="provider_login" style={{ zIndex: zIndexMap.provider_login }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ProviderAuth
               onLoginSuccess={() => handleSwitchRole('provider')}
               onGoToRegister={() => setEntryScreen('provider_register')}
@@ -274,7 +290,7 @@ export default function App() {
 
         {/* 6. Customer Registration Flow */}
         {currentScreen === 'customer_register' && (
-          <motion.div key="customer_register" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="customer_register" style={{ zIndex: zIndexMap.customer_register }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <CustomerRegistration
               onComplete={(newUser) => {
                 handleUserUpdate(newUser);
@@ -287,7 +303,7 @@ export default function App() {
 
         {/* 7. Provider Registration Flow */}
         {currentScreen === 'provider_register' && (
-          <motion.div key="provider_register" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="provider_register" style={{ zIndex: zIndexMap.provider_register }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ProviderRegistration
               onComplete={(newProv) => {
                 setProviderUser((prev) => ({ ...prev, ...newProv }));
@@ -302,6 +318,7 @@ export default function App() {
         {(currentScreen === 'home' || (currentScreen === 'service_details' && (customerStack[customerStack.length - 2] || 'home') === 'home')) && (
           <motion.div 
             key="home" 
+            style={{ zIndex: zIndexMap.home }}
             initial={{ opacity: 0, y: 12 }} 
             animate={{ opacity: 1, y: 0 }} 
             exit={{ opacity: 0, y: -12 }}
@@ -339,7 +356,7 @@ export default function App() {
 
         {/* 10. Service Request Bottom Sheet */}
         {currentScreen === 'request_sheet' && selectedCategory && (
-          <motion.div key="request_sheet" className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="request_sheet" style={{ zIndex: zIndexMap.request_sheet }} className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ServiceRequestBottomSheet
               category={selectedCategory}
               subService={selectedSubService || undefined}
@@ -352,7 +369,7 @@ export default function App() {
 
         {/* 11. Searching Experience (Animated Radar) */}
         {currentScreen === 'searching' && selectedCategory && (
-          <motion.div key="searching" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="searching" style={{ zIndex: zIndexMap.searching }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <SearchingScreen
               category={selectedCategory}
               availableProviders={providers}
@@ -364,7 +381,7 @@ export default function App() {
 
         {/* 12. Provider Accepted Modal */}
         {currentScreen === 'provider_accepted' && selectedProvider && (
-          <motion.div key="provider_accepted" className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="provider_accepted" style={{ zIndex: zIndexMap.provider_accepted }} className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ProviderAcceptedModal
               provider={selectedProvider}
               onTrackOnMap={() => setCustomerStack(['home', 'live_tracking'])}
@@ -374,7 +391,7 @@ export default function App() {
 
         {/* 13. Live GPS Tracking Map */}
         {currentScreen === 'live_tracking' && selectedProvider && activeBooking && (
-          <motion.div key="live_tracking" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="live_tracking" style={{ zIndex: zIndexMap.live_tracking }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <LiveTrackingMap
               provider={selectedProvider}
               bookingRequest={activeBooking}
@@ -412,7 +429,7 @@ export default function App() {
 
         {/* 14. Chat Screen */}
         {currentScreen === 'chat' && selectedProvider && (
-          <motion.div key="chat" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="chat" style={{ zIndex: zIndexMap.chat }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ChatScreen
               provider={selectedProvider}
               initialMessages={chatMessages}
@@ -429,7 +446,7 @@ export default function App() {
 
         {/* 15. Job Completed Celebration Modal */}
         {currentScreen === 'job_completed' && selectedProvider && activeBooking && (
-          <motion.div key="job_completed" className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="job_completed" style={{ zIndex: zIndexMap.job_completed }} className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <JobCompletedModal
               bookingRequest={activeBooking}
               provider={selectedProvider}
@@ -455,6 +472,7 @@ export default function App() {
         {(currentScreen === 'customer_profile' || (currentScreen === 'service_details' && customerStack[customerStack.length - 2] === 'customer_profile')) && (
           <motion.div 
             key="customer_profile" 
+            style={{ zIndex: zIndexMap.customer_profile }}
             initial={{ opacity: 0, y: 12 }} 
             animate={{ opacity: 1, y: 0 }} 
             exit={{ opacity: 0, y: -12 }}
@@ -472,7 +490,7 @@ export default function App() {
 
         {/* 17. Provider Dashboard */}
         {currentScreen === 'provider_dashboard' && selectedProvider && (
-          <motion.div key="provider_dashboard" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="provider_dashboard" style={{ zIndex: zIndexMap.provider_dashboard }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ProviderDashboard
               provider={selectedProvider}
               activeRequests={requestsHistory}
@@ -491,7 +509,7 @@ export default function App() {
 
         {/* 17b. Provider Jobs Screen */}
         {currentScreen === 'provider_jobs' && (
-          <motion.div key="provider_jobs" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="provider_jobs" style={{ zIndex: zIndexMap.provider_jobs }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ProviderJobs
               allRequests={requestsHistory}
               onAcceptJob={(req) => {
@@ -516,7 +534,7 @@ export default function App() {
 
         {/* 17c. Provider Messages Screen */}
         {currentScreen === 'provider_messages' && (
-          <motion.div key="provider_messages" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="provider_messages" style={{ zIndex: zIndexMap.provider_messages }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ProviderMessages
               onOpenChat={() => navigateProvider('chat')}
             />
@@ -525,7 +543,7 @@ export default function App() {
 
         {/* 17d. Provider Profile Screen */}
         {currentScreen === 'provider_profile' && selectedProvider && (
-          <motion.div key="provider_profile" className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div key="provider_profile" style={{ zIndex: zIndexMap.provider_profile }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
             <ProviderProfile
               provider={selectedProvider}
               onSwitchRole={() => handleSwitchRole('customer')}
@@ -538,6 +556,7 @@ export default function App() {
         {(currentScreen === 'requests_history' || (currentScreen === 'service_details' && customerStack[customerStack.length - 2] === 'requests_history')) && (
           <motion.div 
             key="requests_history" 
+            style={{ zIndex: zIndexMap.requests_history }}
             initial={{ opacity: 0, y: 12 }} 
             animate={{ opacity: 1, y: 0 }} 
             exit={{ opacity: 0, y: -12 }}
@@ -560,6 +579,7 @@ export default function App() {
         {(currentScreen === 'messages_list' || (currentScreen === 'service_details' && customerStack[customerStack.length - 2] === 'messages_list')) && (
           <motion.div 
             key="messages_list" 
+            style={{ zIndex: zIndexMap.messages_list }}
             initial={{ opacity: 0, y: 12 }} 
             animate={{ opacity: 1, y: 0 }} 
             exit={{ opacity: 0, y: -12 }}

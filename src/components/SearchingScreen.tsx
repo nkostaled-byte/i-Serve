@@ -231,7 +231,7 @@ export const SearchingScreen: React.FC<SearchingScreenProps> = ({
   const timelineIndex = currentStage < 2 ? 0 : currentStage < 4 ? 1 : 2;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col justify-between p-5 max-w-md mx-auto relative overflow-hidden font-sans select-none">
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col justify-between px-5 pb-5 pt-[calc(env(safe-area-inset-top)+1.25rem)] max-w-md mx-auto relative overflow-hidden font-sans select-none">
       {/* Background Interactive Leaflet Map Layer */}
       <div className="absolute inset-0 z-0">
         <div ref={mapContainerRef} className="w-full h-full opacity-90" />

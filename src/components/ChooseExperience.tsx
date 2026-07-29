@@ -8,7 +8,7 @@ interface ChooseExperienceProps {
 
 export const ChooseExperience: React.FC<ChooseExperienceProps> = ({ onSelectRole }) => {
   return (
-    <div className="min-h-screen bg-[#F6F8FB] dark:bg-[#070B14] flex flex-col justify-between p-6 max-w-md mx-auto relative overflow-hidden transition-colors">
+    <div className="min-h-screen bg-[#F6F8FB] dark:bg-[#070B14] flex flex-col justify-between px-6 pb-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] max-w-md mx-auto relative overflow-hidden transition-colors">
       {/* Editorial Header */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}

@@ -109,9 +109,14 @@ export const ProviderMessages: React.FC<ProviderMessagesProps> = ({ onOpenChat }
   );
 
   return (
-    <div className="pb-28 pt-4 px-4 max-w-md mx-auto space-y-5 font-sans">
+    <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-5 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+        className="flex items-center justify-between"
+      >
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-[#3F73C7] dark:text-[#21C7F6]">
             Communication
@@ -123,10 +128,15 @@ export const ProviderMessages: React.FC<ProviderMessagesProps> = ({ onOpenChat }
         <div className="w-10 h-10 rounded-2xl bg-[#3F73C7]/10 dark:bg-[#21C7F6]/20 flex items-center justify-center text-[#3F73C7] dark:text-[#21C7F6]">
           <MessageSquare className="w-5 h-5" />
         </div>
-      </div>
+      </motion.div>
 
       {/* Tabs */}
-      <div className="flex bg-slate-100 dark:bg-[#131E33] p-1 rounded-2xl text-xs font-semibold border border-transparent dark:border-white/[0.06]">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
+        className="flex bg-slate-100 dark:bg-[#131E33] p-1 rounded-2xl text-xs font-semibold border border-transparent dark:border-white/[0.06]"
+      >
         <button
           onClick={() => setActiveTab('customers')}
           className={`flex-1 py-2.5 rounded-xl transition-all flex items-center justify-center space-x-2 ${
@@ -151,10 +161,15 @@ export const ProviderMessages: React.FC<ProviderMessagesProps> = ({ onOpenChat }
           <span>Partner Support</span>
           <span className="w-2 h-2 rounded-full bg-cyan-500 dark:bg-[#21C7F6]" />
         </button>
-      </div>
+      </motion.div>
 
       {/* Search Bar */}
-      <div className="relative">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+        className="relative"
+      >
         <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#7F8DA8]" />
         <input
           type="text"
@@ -163,13 +178,19 @@ export const ProviderMessages: React.FC<ProviderMessagesProps> = ({ onOpenChat }
           placeholder={`Search ${activeTab === 'customers' ? 'customer' : 'support topic'}...`}
           className="w-full bg-white dark:bg-[#131E33] pl-10 pr-4 py-2.5 rounded-2xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-[#7F8DA8] border border-slate-200/80 dark:border-white/[0.06] focus:outline-none focus:ring-2 focus:ring-[#3F73C7]/20 dark:focus:ring-[#21C7F6]/20 transition-all shadow-sm"
         />
-      </div>
+      </motion.div>
 
       {/* Thread List */}
-      <div className="space-y-2.5">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="space-y-2.5"
+      >
         {filteredThreads.map((thread) => (
-          <div
+          <motion.div
             key={thread.id}
+            variants={itemVariants}
             onClick={() => onOpenChat(thread.customerName)}
             className="bg-white dark:bg-[#131E33] p-3.5 rounded-[24px] card-shadow border border-slate-100 dark:border-white/[0.06] flex items-center justify-between cursor-pointer transition-all hover:border-[#3F73C7]/30"
           >
@@ -209,9 +230,9 @@ export const ProviderMessages: React.FC<ProviderMessagesProps> = ({ onOpenChat }
               </span>
               <ChevronRight className="w-4 h-4 text-slate-300 dark:text-[#7F8DA8]" />
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

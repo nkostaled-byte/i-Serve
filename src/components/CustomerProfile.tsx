@@ -136,9 +136,14 @@ export const CustomerProfile: React.FC<CustomerProfileProps> = ({
   };
 
   return (
-    <div className="pb-28 pt-4 px-4 max-w-md mx-auto space-y-5 font-sans">
+    <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-5 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+        className="flex items-center justify-between"
+      >
         <div>
           <span className="text-xs font-semibold uppercase tracking-wider text-[#27C2D4] dark:text-[#2EC5F4]">
             My Account
@@ -153,10 +158,14 @@ export const CustomerProfile: React.FC<CustomerProfileProps> = ({
         >
           Switch to Partner
         </button>
-      </div>
+      </motion.div>
 
       {/* Profile Avatar Header Card */}
-      <div className="bg-gradient-to-tr from-slate-900 via-[#3F73C7] to-[#27C2D4] dark:from-[#111827] dark:via-[#1A2333] dark:to-[#2EC5F4]/40 p-5 rounded-[28px] text-white float-shadow text-center relative overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
+        className="bg-gradient-to-tr from-slate-900 via-[#3F73C7] to-[#27C2D4] dark:from-[#111827] dark:via-[#1A2333] dark:to-[#2EC5F4]/40 p-5 rounded-[28px] text-white float-shadow text-center relative overflow-hidden">
         <div className="relative w-24 h-24 mx-auto mb-2.5">
           <img
             src={user.avatarUrl}
@@ -204,10 +213,15 @@ export const CustomerProfile: React.FC<CustomerProfileProps> = ({
           <ShieldCheck className="w-3 h-3 text-cyan-300 dark:text-[#2EC5F4]" />
           <span>Verified Account</span>
         </span>
-      </div>
+      </motion.div>
 
       {/* Account Details Form */}
-      <div className="bg-white dark:bg-[#1A2333] p-4 rounded-[24px] card-shadow space-y-3 transition-colors">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+        className="bg-white dark:bg-[#1A2333] p-4 rounded-[24px] card-shadow space-y-3 transition-colors"
+      >
         <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-[#94A3B8]">
           Personal Details
         </h3>
@@ -286,7 +300,7 @@ export const CustomerProfile: React.FC<CustomerProfileProps> = ({
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Saved Addresses */}
       <div className="bg-white dark:bg-[#1A2333] p-4 rounded-[24px] card-shadow space-y-3 transition-colors">

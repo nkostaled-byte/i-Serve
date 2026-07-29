@@ -22,7 +22,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   return (
     <div 
       onClick={onComplete}
-      className="fixed inset-0 z-50 bg-gradient-to-b from-[#27C2D4] via-[#3F73C7] to-[#0F172A] flex flex-col items-center justify-between p-8 overflow-hidden cursor-pointer"
+      className="fixed inset-0 z-50 bg-gradient-to-b from-[#27C2D4] via-[#3F73C7] to-[#0F172A] flex flex-col items-center justify-between px-8 pb-8 pt-[calc(env(safe-area-inset-top)+2rem)] overflow-hidden cursor-pointer"
     >
       {/* Animated Fluid Water Waves in background */}
       <div className="absolute inset-0 pointer-events-none opacity-30">

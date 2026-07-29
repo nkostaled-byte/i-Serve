@@ -37,9 +37,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     : categories;
 
   return (
-    <div className="pb-28 pt-4 px-4 max-w-md mx-auto space-y-6">
+    <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-6">
       {/* 1. Header: Good Morning + Profile Photo */}
-      <div className="flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+        className="flex items-center justify-between"
+      >
         <div>
           <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-[#7F8DA8] font-sans">
             Good Morning,
@@ -57,17 +62,27 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           />
           <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-white dark:border-[#131E33]" />
         </div>
-      </div>
+      </motion.div>
 
       {/* 2. Large Editorial Heading */}
-      <div className="space-y-1">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
+        className="space-y-1"
+      >
         <h1 className="text-3xl font-serif text-slate-900 dark:text-white leading-tight font-normal">
           What do you need help with today?
         </h1>
-      </div>
+      </motion.div>
 
       {/* 3. Large Search Field */}
-      <div className="relative">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+        className="relative"
+      >
         <Search className="w-5 h-5 absolute left-4 top-4 text-slate-400 dark:text-[#7F8DA8]" />
         <input
           type="text"
@@ -82,10 +97,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         >
           <Filter className="w-4 h-4" />
         </button>
-      </div>
+      </motion.div>
 
       {/* 4. Emergency Service Hero Card - Brand Gradient */}
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
         onClick={onRequestEmergency}
         className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-[#3F73C7] to-[#27C2D4] text-white p-5 rounded-[28px] float-shadow cursor-pointer active:scale-[0.98] transition-transform"
       >
@@ -119,11 +137,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <ArrowRight className="w-3.5 h-3.5" />
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* 4b. Persistent Active Service Tracking Card - Lightweight & Refined */}
       {activeRequest && ['searching', 'pending', 'accepted', 'on_the_way', 'arrived', 'in_progress'].includes(activeRequest.status) && (
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.22 }}
           onClick={() => onViewRequestDetails(activeRequest)}
           className="bg-white dark:bg-[#131E33] p-3.5 rounded-[22px] border border-slate-200/80 dark:border-white/[0.06] card-shadow text-slate-900 dark:text-white cursor-pointer space-y-2.5 hover:border-[#27C2D4]/40 transition-all"
         >
@@ -188,19 +209,28 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               }}
             />
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* 5. 3x3 Service Grid */}
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.26 }}
+      >
         <ServiceGrid 
           categories={filteredCategories} 
           onSelectCategory={onSelectCategory} 
         />
-      </div>
+      </motion.div>
 
       {/* 6. Nearby Professionals */}
-      <div className="space-y-3">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.32 }}
+        className="space-y-3"
+      >
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-serif text-slate-900 dark:text-white font-normal">
@@ -268,11 +298,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* 7. Recent Requests */}
       {recentRequests.length > 0 && (
-        <div className="space-y-3 pt-2">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.38 }}
+          className="space-y-3 pt-2"
+        >
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-serif text-slate-900 dark:text-white font-normal">
               Recent Requests
@@ -302,11 +337,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* 8. Editorial Recommendations Banner */}
-      <div className="bg-gradient-to-r from-[#3F73C7] to-[#4340A8] text-white p-6 rounded-[28px] float-shadow space-y-2">
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.44 }}
+        className="bg-gradient-to-r from-[#3F73C7] to-[#4340A8] text-white p-6 rounded-[28px] float-shadow space-y-2"
+      >
         <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-300">
           Curated Home Protection
         </span>
@@ -316,7 +356,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <p className="text-xs text-slate-200 font-sans leading-relaxed">
           Get a comprehensive certified audit of your home breaker board and plumbing connections.
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };

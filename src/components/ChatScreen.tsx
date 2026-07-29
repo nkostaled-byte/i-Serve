@@ -81,7 +81,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   return (
     <div className="min-h-screen bg-[#F6F8FB] dark:bg-[#070B14] flex flex-col justify-between max-w-md mx-auto relative font-sans transition-colors">
       {/* Top Floating Glass Header */}
-      <div className="p-4 bg-white/90 dark:bg-[#131E33]/90 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between sticky top-0 z-30 card-shadow">
+      <div className="px-4 pb-4 pt-[calc(env(safe-area-inset-top)+1rem)] bg-white/90 dark:bg-[#131E33]/90 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between sticky top-0 z-30 card-shadow">
         <div className="flex items-center space-x-3">
           <button
             onClick={onBack}
