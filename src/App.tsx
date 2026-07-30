@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   AppScreen, 
@@ -79,14 +79,23 @@ export default function App() {
   // That means navigating "backwards" (e.g. from a screen declared later in the file to one
   // declared earlier, like customer_profile -> home) puts the OLD screen on top of the new one
   // during the exit animation, which reads as a flicker/flash of the previous page.
-  // This map keeps a monotonically increasing z-index per screen so whichever one is currently
+  // This ref keeps a monotonically increasing z-index per screen so whichever one is currently
   // active always paints above everything else, independent of JSX order.
-  const zIndexCounter = useRef(1);
-  const [zIndexMap, setZIndexMap] = useState<Record<string, number>>({ install_wall: 1 });
-  useEffect(() => {
-    zIndexCounter.current += 1;
-    setZIndexMap((prev) => ({ ...prev, [currentScreen]: zIndexCounter.current }));
-  }, [currentScreen]);
+  //
+  // IMPORTANT: this is computed synchronously during render (not via useEffect+useState).
+  // useEffect runs *after* the browser paints, so the entering screen would briefly paint with
+  // its old/lower z-index for one frame before the effect corrected it - invisible on a fast
+  // desktop, but visible as a flicker on slower mobile devices/webviews. Computing it inline
+  // during render means the correct z-index is already applied on the very first paint.
+  const zIndexRef = useRef<Record<string, number>>({ install_wall: 1 });
+  const zCounterRef = useRef(1);
+  const lastScreenRef = useRef<string | null>(null);
+  if (lastScreenRef.current !== currentScreen) {
+    zCounterRef.current += 1;
+    zIndexRef.current = { ...zIndexRef.current, [currentScreen]: zCounterRef.current };
+    lastScreenRef.current = currentScreen;
+  }
+  const zIndexMap = zIndexRef.current;
 
   // Role switching (Demo mode) - clear history and load root screen of selected role
   const handleSwitchRole = (newRole: 'customer' | 'provider') => {
