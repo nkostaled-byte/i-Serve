@@ -62,7 +62,7 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
   };
 
   return (
-    <div className="pb-32 pt-4 px-4 max-w-md mx-auto space-y-6 font-sans">
+    <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-6 font-sans">
       {/* Top Header */}
       <div
         className="flex items-center justify-between"

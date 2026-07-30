@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ServiceBookingRequest } from '../types';
-import { Clock, MapPin, CheckCircle, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Clock, MapPin, CheckCircle, ChevronRight } from 'lucide-react';
 
 interface RequestsHistoryScreenProps {
   requests: ServiceBookingRequest[];
   onSelectRequest: (req: ServiceBookingRequest) => void;
-  onBack: () => void;
+  onBack?: () => void;
 }
 
 const containerVariants = {
@@ -35,25 +35,16 @@ const itemVariants = {
 export const RequestsHistoryScreen: React.FC<RequestsHistoryScreenProps> = ({
   requests,
   onSelectRequest,
-  onBack,
 }) => {
   return (
     <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-6 font-sans">
-      <div className="flex items-center space-x-3">
-        <button
-          onClick={onBack}
-          className="w-10 h-10 bg-white dark:bg-[#131E33] rounded-full flex items-center justify-center text-slate-700 dark:text-[#B8C3D9] card-shadow hover:bg-slate-50 dark:hover:bg-[#17243C] transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#27C2D4] dark:text-[#21C7F6]">
-            Booking History
-          </span>
-          <h1 className="text-2xl font-serif text-slate-900 dark:text-white font-normal">
-            Your Service Requests
-          </h1>
-        </div>
+      <div>
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#27C2D4] dark:text-[#21C7F6]">
+          Booking History
+        </span>
+        <h1 className="text-2xl font-serif text-slate-900 dark:text-white font-normal">
+          Your Service Requests
+        </h1>
       </div>
 
       <div className="space-y-3">

@@ -157,12 +157,26 @@ export const CustomerProfile: React.FC<CustomerProfileProps> = ({
 
       {/* Profile Avatar Header Card */}
       <div className="bg-gradient-to-tr from-slate-900 via-[#3F73C7] to-[#27C2D4] dark:from-[#111827] dark:via-[#1A2333] dark:to-[#2EC5F4]/40 p-5 rounded-[28px] text-white float-shadow text-center relative overflow-hidden">
-        <div className="relative w-24 h-24 mx-auto mb-2.5">
+        <div className="relative w-24 h-24 mx-auto mb-2.5 group">
           <img
             src={user.avatarUrl}
             alt={user.name}
             referrerPolicy="no-referrer"
             className="w-24 h-24 rounded-full object-cover border-4 border-white/90 dark:border-[#2EC5F4]/60 float-shadow"
+          />
+          <label 
+            htmlFor="customer-photo-upload" 
+            className="absolute bottom-0 right-0 p-2 bg-[#3F73C7] dark:bg-[#2EC5F4] text-white dark:text-slate-900 rounded-full shadow-lg cursor-pointer hover:scale-110 active:scale-95 transition-transform border-2 border-white dark:border-[#111827]"
+            title="Edit profile photo"
+          >
+            <Camera className="w-3.5 h-3.5" />
+          </label>
+          <input
+            id="customer-photo-upload"
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoUpload}
+            className="hidden"
           />
         </div>
 
