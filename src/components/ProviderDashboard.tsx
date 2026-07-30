@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { 
   Power, DollarSign, Star, Calendar, Clock, MapPin, CheckCircle, 
   XCircle, ChevronRight, User, Bell, TrendingUp, ShieldCheck, Zap,
   Briefcase, MessageSquare, Navigation
 } from 'lucide-react';
+import { BarChart, Bar, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 import { ServiceProvider, ServiceBookingRequest } from '../types';
 
 interface ProviderDashboardProps {
@@ -53,10 +53,7 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
   return (
     <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-5 font-sans">
       {/* Top Header Controls */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div className="flex items-center space-x-3">
@@ -91,13 +88,10 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
           <span>Customer View</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
-      </motion.div>
+      </div>
 
       {/* Availability Status Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
+      <div
         className={`p-4 rounded-[28px] card-shadow flex items-center justify-between text-white transition-all duration-300 ${
           isOnline ? 'bg-gradient-to-r from-emerald-600 to-teal-700' : 'bg-slate-800'
         }`}
@@ -111,7 +105,7 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
               <h3 className="font-semibold text-sm">
                 {isOnline ? 'Active & Ready for Dispatches' : 'Offline Mode'}
               </h3>
-              {isOnline && <span className="w-2 h-2 rounded-full bg-emerald-300 animate-ping" />}
+              {isOnline && <span className="w-2 h-2 rounded-full bg-emerald-300" />}
             </div>
             <p className="text-[11px] text-white/80">
               {isOnline ? 'Receiving customer service dispatches nearby' : 'Turn online to receive new jobs'}
@@ -129,13 +123,10 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
             isOnline ? 'translate-x-6' : 'translate-x-0'
           }`} />
         </button>
-      </motion.div>
+      </div>
 
       {/* Today's & Weekly Earnings Overview */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+      <div
         className="bg-gradient-to-tr from-[#3F73C7] via-[#3561ab] to-[#4340A8] p-5 rounded-[32px] text-white float-shadow space-y-4"
       >
         <div className="flex justify-between items-center text-xs text-cyan-200 font-medium">
@@ -161,32 +152,37 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
           </div>
         </div>
 
-        {/* Mini Weekly Bar Visualizer */}
-        <div className="flex items-end justify-between h-12 pt-2 border-t border-white/20">
-          {[
-            { day: 'M', h: '45%' },
-            { day: 'T', h: '70%' },
-            { day: 'W', h: '55%' },
-            { day: 'T', h: '85%' },
-            { day: 'F', h: '95%' },
-            { day: 'S', h: '75%' },
-            { day: 'S', h: '40%' },
-          ].map((bar, i) => (
-            <div key={i} className="flex flex-col items-center space-y-1">
-              <div className="w-5 bg-white/30 rounded-t-sm relative overflow-hidden" style={{ height: bar.h }}>
-                <div className="w-full bg-cyan-300 h-full" />
-              </div>
-              <span className="text-[9px] text-white/70 font-medium">{bar.day}</span>
-            </div>
-          ))}
+        {/* Weekly Revenue Analytics Chart */}
+        <div className="h-32 pt-3 border-t border-white/20">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart 
+              data={[
+                { day: 'M', earnings: 120 },
+                { day: 'T', earnings: 240 },
+                { day: 'W', earnings: 180 },
+                { day: 'T', earnings: 300 },
+                { day: 'F', earnings: 380 },
+                { day: 'S', earnings: 290 },
+                { day: 'S', earnings: 110 },
+              ]} 
+              margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
+            >
+              <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 10 }} dy={5} />
+              <Tooltip 
+                cursor={{ fill: 'rgba(255,255,255,0.1)' }}
+                contentStyle={{ backgroundColor: '#131E33', border: 'none', borderRadius: '12px', fontSize: '12px', color: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
+                itemStyle={{ color: '#67E8F9', fontWeight: 600 }}
+                formatter={(value: number) => [`$${value}`, 'Earnings']}
+                labelStyle={{ color: '#94A3B8', marginBottom: '4px' }}
+              />
+              <Bar dataKey="earnings" fill="#67E8F9" radius={[4, 4, 4, 4]} barSize={16} />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
-      </motion.div>
+      </div>
 
       {/* Performance Summary Cards */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
+      <div
         className="grid grid-cols-4 gap-2"
       >
         <div className="bg-white dark:bg-[#131E33] p-3 rounded-2xl text-center border border-slate-100 dark:border-white/[0.06] shadow-sm">
@@ -217,63 +213,58 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
           </div>
           <span className="text-[9px] text-slate-400 dark:text-[#7F8DA8] block mt-0.5">Response</span>
         </div>
-      </motion.div>
+      </div>
 
       {/* Incoming Request Alert Banner */}
-      <AnimatePresence>
-        {incomingJob && isOnline && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white dark:bg-[#131E33] p-4.5 rounded-[28px] float-shadow border-2 border-[#3F73C7] dark:border-[#21C7F6] space-y-3"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase text-emerald-600 dark:text-[#2DD36F] bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full flex items-center space-x-1">
-                <Bell className="w-3.5 h-3.5 animate-bounce" />
-                <span>Incoming Job Dispatch</span>
-              </span>
-              <span className="text-xs text-slate-400 dark:text-[#7F8DA8] font-sans font-medium">2.4 km away</span>
-            </div>
+      {incomingJob && isOnline && (
+        <div
+          className="bg-white dark:bg-[#131E33] p-4.5 rounded-[28px] float-shadow border-2 border-[#3F73C7] dark:border-[#21C7F6] space-y-3"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase text-emerald-600 dark:text-[#2DD36F] bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full flex items-center space-x-1">
+              <Bell className="w-3.5 h-3.5" />
+              <span>Incoming Job Dispatch</span>
+            </span>
+            <span className="text-xs text-slate-400 dark:text-[#7F8DA8] font-sans font-medium">2.4 km away</span>
+          </div>
 
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-serif text-base font-normal text-slate-900 dark:text-white">{incomingJob.categoryTitle}</h3>
-                <p className="text-xs text-slate-500 dark:text-[#B8C3D9]">{incomingJob.customerName} • {incomingJob.address}</p>
-              </div>
-              <span className="text-2xl font-serif text-[#3F73C7] dark:text-[#21C7F6] font-normal">${incomingJob.amount.toFixed(2)}</span>
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-serif text-base font-normal text-slate-900 dark:text-white">{incomingJob.categoryTitle}</h3>
+              <p className="text-xs text-slate-500 dark:text-[#B8C3D9]">{incomingJob.customerName} • {incomingJob.address}</p>
             </div>
+            <span className="text-2xl font-serif text-[#3F73C7] dark:text-[#21C7F6] font-normal">${incomingJob.amount.toFixed(2)}</span>
+          </div>
 
-            {incomingJob.notes && (
-              <p className="text-xs text-slate-600 dark:text-[#B8C3D9] bg-slate-50 dark:bg-[#0E1628] p-2.5 rounded-2xl italic border border-transparent dark:border-white/[0.06]">
-                "{incomingJob.notes}"
-              </p>
-            )}
+          {incomingJob.notes && (
+            <p className="text-xs text-slate-600 dark:text-[#B8C3D9] bg-slate-50 dark:bg-[#0E1628] p-2.5 rounded-2xl italic border border-transparent dark:border-white/[0.06]">
+              "{incomingJob.notes}"
+            </p>
+          )}
 
-            <div className="grid grid-cols-2 gap-2 pt-1">
-              <button
-                onClick={() => {
-                  onDeclineRequest(incomingJob);
-                  setIncomingJob(null);
-                }}
-                className="py-2.5 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-[#FF5D73] font-semibold text-xs rounded-2xl hover:bg-rose-100 dark:hover:bg-rose-950/60 transition-colors"
-              >
-                Decline
-              </button>
-              <button
-                onClick={() => {
-                  onAcceptRequest(incomingJob);
-                  setIncomingJob(null);
-                }}
-                className="py-2.5 bg-gradient-to-r from-[#3F73C7] to-[#4340A8] dark:from-[#21C7F6] dark:to-[#4D5DFA] text-white dark:text-[#070B14] font-semibold text-xs rounded-2xl float-shadow active:scale-95 transition-transform flex items-center justify-center space-x-1"
-              >
-                <Zap className="w-3.5 h-3.5" />
-                <span>Accept Dispatch</span>
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              onClick={() => {
+                onDeclineRequest(incomingJob);
+                setIncomingJob(null);
+              }}
+              className="py-2.5 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-[#FF5D73] font-semibold text-xs rounded-2xl hover:bg-rose-100 dark:hover:bg-rose-950/60 transition-colors"
+            >
+              Decline
+            </button>
+            <button
+              onClick={() => {
+                onAcceptRequest(incomingJob);
+                setIncomingJob(null);
+              }}
+              className="py-2.5 bg-gradient-to-r from-[#3F73C7] to-[#4340A8] dark:from-[#21C7F6] dark:to-[#4D5DFA] text-white dark:text-[#070B14] font-semibold text-xs rounded-2xl float-shadow active:scale-95 transition-transform flex items-center justify-center space-x-1"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span>Accept Dispatch</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Active Jobs List */}
       <div className="space-y-3">

@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { ServiceCategory } from '../types';
 import { ServiceIllustration } from './ServiceIllustrations';
 

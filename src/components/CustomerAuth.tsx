@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
 import { Mail, Lock, ArrowRight, ArrowLeft } from 'lucide-react';
 import { requestNotificationPermission } from '../utils/notifications';
 
@@ -40,9 +39,7 @@ export const CustomerAuth: React.FC<CustomerAuthProps> = ({ onLoginSuccess, onGo
       </div>
 
       {/* Main Glass Card */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div 
         className="bg-white dark:bg-[#131E33] p-7 rounded-[32px] card-shadow my-auto my-6 border border-transparent dark:border-white/[0.06]"
       >
         <h1 className="text-3xl font-serif text-slate-900 dark:text-white font-normal">
@@ -134,7 +131,7 @@ export const CustomerAuth: React.FC<CustomerAuthProps> = ({ onLoginSuccess, onGo
             Sign up now
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Footer */}
       <div className="text-center text-xs text-slate-400 dark:text-[#7F8DA8] pb-4 font-sans">

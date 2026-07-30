@@ -14,7 +14,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onComplete();
-    }, 2400);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
@@ -31,34 +31,62 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center z-10 text-center">
-        {/* Animated Drop Logo */}
+        {/* Animated Drop Logo Container */}
         <motion.div
           initial={{ scale: 0.4, opacity: 0, y: 30 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="relative mb-6"
         >
-          {/* Subtle water ripple ring */}
+          {/* Smooth fluid water ripple rings */}
           <motion.div 
-            initial={{ scale: 0.8, opacity: 0.8 }}
-            animate={{ scale: 1.6, opacity: 0 }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
-            className="absolute inset-0 rounded-[32px] border-2 border-cyan-300 z-0"
+            animate={{ 
+              scale: [0.95, 1.45, 1.65], 
+              opacity: [0, 0.5, 0] 
+            }}
+            transition={{ 
+              duration: 3.2, 
+              repeat: Infinity, 
+              ease: 'easeInOut',
+              times: [0, 0.4, 1]
+            }}
+            className="absolute inset-0 rounded-[32px] border border-cyan-300/60 pointer-events-none z-0"
           />
+          <motion.div 
+            animate={{ 
+              scale: [0.95, 1.45, 1.65], 
+              opacity: [0, 0.4, 0] 
+            }}
+            transition={{ 
+              duration: 3.2, 
+              repeat: Infinity, 
+              ease: 'easeInOut',
+              delay: 1.6,
+              times: [0, 0.4, 1]
+            }}
+            className="absolute inset-0 rounded-[32px] border border-cyan-200/40 pointer-events-none z-0"
+          />
+
           <div className="w-24 h-24 flex items-center justify-center overflow-hidden p-0 relative z-10">
-            {!logoError ? (
-              <img 
-                src={LOGO_URL} 
-                alt="i-Serve Logo" 
-                onError={() => setLogoError(true)}
-                className="w-full h-full object-contain animate-pulse"
-                referrerPolicy="no-referrer"
-              />
-            ) : (
-              <div className="w-24 h-24 bg-white/10 backdrop-blur-md rounded-[32px] border border-white/20 flex items-center justify-center shadow-2xl">
-                <Droplets className="w-12 h-12 text-white animate-pulse" />
-              </div>
-            )}
+            <motion.div
+              animate={{ scale: [1, 1.03, 1], opacity: [0.94, 1, 0.94] }}
+              transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-full h-full flex items-center justify-center"
+            >
+              {!logoError ? (
+                <img 
+                  src={LOGO_URL} 
+                  alt="i-Serve Logo" 
+                  onError={() => setLogoError(true)}
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <div className="w-24 h-24 bg-white/10 backdrop-blur-md rounded-[32px] border border-white/20 flex items-center justify-center shadow-2xl">
+                  <Droplets className="w-12 h-12 text-white" />
+                </div>
+              )}
+            </motion.div>
           </div>
         </motion.div>
 

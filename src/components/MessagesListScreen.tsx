@@ -39,12 +39,7 @@ export const MessagesListScreen: React.FC<MessagesListScreenProps> = ({
 }) => {
   return (
     <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-6 font-sans">
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-        className="flex items-center space-x-3"
-      >
+      <div className="flex items-center space-x-3">
         <button
           onClick={onBack}
           className="w-10 h-10 bg-white dark:bg-[#131E33] rounded-full flex items-center justify-center text-slate-700 dark:text-white card-shadow hover:bg-slate-50 dark:hover:bg-[#17243C] transition-colors border border-transparent dark:border-white/[0.06]"
@@ -59,18 +54,12 @@ export const MessagesListScreen: React.FC<MessagesListScreenProps> = ({
             Messages & Inquiries
           </h1>
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="space-y-3"
-      >
+      <div className="space-y-3">
         {providers.map((prov) => (
-          <motion.div
+          <div
             key={prov.id}
-            variants={itemVariants}
             onClick={() => onOpenChat(prov)}
             className="bg-white dark:bg-[#131E33] p-4 rounded-[24px] card-shadow cursor-pointer flex items-center justify-between hover:border-[#27C2D4]/30 dark:hover:border-[#21C7F6]/30 border border-transparent dark:border-white/[0.06] transition-all"
           >
@@ -101,9 +90,9 @@ export const MessagesListScreen: React.FC<MessagesListScreenProps> = ({
             <div className="w-8 h-8 bg-slate-50 dark:bg-[#17243C] rounded-full flex items-center justify-center text-slate-400 dark:text-[#7F8DA8]">
               <ChevronRight className="w-4 h-4" />
             </div>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };

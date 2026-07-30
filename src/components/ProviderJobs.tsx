@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { 
   Search, Filter, MapPin, Clock, Phone, MessageSquare, 
   ChevronRight, CheckCircle2, XCircle, Navigation, DollarSign,
@@ -125,10 +124,7 @@ export const ProviderJobs: React.FC<ProviderJobsProps> = ({
   return (
     <div className="pb-28 pt-[calc(env(safe-area-inset-top)+1rem)] px-4 max-w-md mx-auto space-y-5 font-sans">
       {/* Title & Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -142,13 +138,10 @@ export const ProviderJobs: React.FC<ProviderJobsProps> = ({
         <div className="w-10 h-10 rounded-2xl bg-white dark:bg-[#131E33] shadow-sm border border-slate-100 dark:border-white/[0.06] flex items-center justify-center text-slate-600 dark:text-white font-serif font-semibold text-sm">
           {sampleJobs.length}
         </div>
-      </motion.div>
+      </div>
 
       {/* Search Input */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
+      <div
         className="relative"
       >
         <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#7F8DA8]" />
@@ -157,15 +150,12 @@ export const ProviderJobs: React.FC<ProviderJobsProps> = ({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search customer, location or service..."
-          className="w-full bg-white dark:bg-[#131E33] pl-10 pr-4 py-2.5 rounded-2xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-[#7F8DA8] border border-slate-200/80 dark:border-white/[0.06] focus:outline-none focus:ring-2 focus:ring-[#3F73C7]/20 dark:focus:ring-[#21C7F6]/20 transition-all shadow-sm"
+          className="w-full bg-white dark:bg-[#131E33] pl-10 pr-4 py-2.5 rounded-2xl text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-[#7F8DA8] border border-slate-200/80 dark:border-white/[0.06] focus:outline-none focus:ring-2 focus:ring-[#3F73C7]/20 dark:focus:ring-[#21C7F6]/20 shadow-sm"
         />
-      </motion.div>
+      </div>
 
       {/* Filter Tabs horizontally scrollable */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+      <div
         className="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1"
       >
         {[
@@ -182,7 +172,7 @@ export const ProviderJobs: React.FC<ProviderJobsProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap ${
                 isActive
                   ? 'bg-[#3F73C7] dark:bg-[#21C7F6] text-white dark:text-[#070B14] shadow-md shadow-[#3F73C7]/20'
                   : 'bg-white dark:bg-[#131E33] text-slate-600 dark:text-[#B8C3D9] border border-slate-200/70 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-[#17243C]'
@@ -197,39 +187,30 @@ export const ProviderJobs: React.FC<ProviderJobsProps> = ({
             </button>
           );
         })}
-      </motion.div>
+      </div>
 
       {/* Job List */}
       <div className="space-y-3.5">
-        <AnimatePresence mode="popLayout">
-          {filteredJobs.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-white dark:bg-[#131E33] p-8 rounded-[28px] text-center border border-slate-100 dark:border-white/[0.06] shadow-sm space-y-2"
+        {filteredJobs.length === 0 ? (
+          <div
+            className="bg-white dark:bg-[#131E33] p-8 rounded-[28px] text-center border border-slate-100 dark:border-white/[0.06] shadow-sm space-y-2"
+          >
+            <div className="w-12 h-12 bg-slate-100 dark:bg-[#17243C] rounded-full flex items-center justify-center mx-auto text-slate-400 dark:text-[#7F8DA8]">
+              <AlertCircle className="w-6 h-6" />
+            </div>
+            <h3 className="font-serif text-base text-slate-800 dark:text-white font-medium">No jobs in this category</h3>
+            <p className="text-xs text-slate-500 dark:text-[#B8C3D9] max-w-xs mx-auto">
+              {activeTab === 'incoming' 
+                ? 'Keep your online toggle active on the dashboard to receive new dispatch requests.' 
+                : 'Change your filter above or search for another customer keyword.'}
+            </p>
+          </div>
+        ) : (
+          filteredJobs.map((job) => (
+            <div
+              key={job.id}
+              className="bg-white dark:bg-[#131E33] p-4 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3.5 relative overflow-hidden"
             >
-              <div className="w-12 h-12 bg-slate-100 dark:bg-[#17243C] rounded-full flex items-center justify-center mx-auto text-slate-400 dark:text-[#7F8DA8]">
-                <AlertCircle className="w-6 h-6" />
-              </div>
-              <h3 className="font-serif text-base text-slate-800 dark:text-white font-medium">No jobs in this category</h3>
-              <p className="text-xs text-slate-500 dark:text-[#B8C3D9] max-w-xs mx-auto">
-                {activeTab === 'incoming' 
-                  ? 'Keep your online toggle active on the dashboard to receive new dispatch requests.' 
-                  : 'Change your filter above or search for another customer keyword.'}
-              </p>
-            </motion.div>
-          ) : (
-            filteredJobs.map((job, i) => (
-              <motion.div
-                key={job.id}
-                layout
-                initial={{ opacity: 0, y: 20, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
-                className="bg-white dark:bg-[#131E33] p-4 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3.5 relative overflow-hidden"
-              >
                 {/* Status Indicator pill */}
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#3F73C7] dark:text-[#21C7F6] bg-[#3F73C7]/10 dark:bg-[#21C7F6]/20 px-2.5 py-0.5 rounded-full">
@@ -339,10 +320,9 @@ export const ProviderJobs: React.FC<ProviderJobsProps> = ({
                     </div>
                   )}
                 </div>
-              </motion.div>
-            ))
-          )}
-        </AnimatePresence>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

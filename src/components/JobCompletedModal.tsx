@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { Check, Star, Download, RefreshCw, Home, HeartHandshake } from 'lucide-react';
 import { ServiceBookingRequest, ServiceProvider } from '../types';
@@ -58,15 +57,12 @@ Thank you for using i-Serve Home Services!
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <motion.div
-        initial={{ scale: 0.85, opacity: 0, y: 30 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ type: 'spring', damping: 22, stiffness: 220 }}
+      <div
         className="bg-white dark:bg-[#131E33] w-full max-w-md rounded-t-[32px] sm:rounded-[32px] p-6 text-center space-y-5 shadow-2xl relative overflow-hidden border border-transparent dark:border-white/[0.06]"
       >
         {/* Success Check Badge */}
         <div className="w-20 h-20 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto float-shadow">
-          <Check className="w-10 h-10 animate-pulse" />
+          <Check className="w-10 h-10" />
         </div>
 
         <div>
@@ -148,7 +144,7 @@ Thank you for using i-Serve Home Services!
             Return to Home Dashboard
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

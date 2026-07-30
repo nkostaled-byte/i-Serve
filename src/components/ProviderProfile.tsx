@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { 
   User, Camera, ShieldCheck, MapPin, Clock, Star, DollarSign, 
   Settings, LogOut, ChevronRight, Plus, Sliders, Check,
@@ -65,10 +64,7 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
   return (
     <div className="pb-32 pt-4 px-4 max-w-md mx-auto space-y-6 font-sans">
       {/* Top Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -82,19 +78,16 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
 
         <button
           onClick={onSwitchRole}
-          className="px-3.5 py-1.5 bg-slate-100 dark:bg-[#17243C] hover:bg-slate-200 dark:hover:bg-[#1E2E4A] text-slate-700 dark:text-[#B8C3D9] text-xs font-semibold rounded-full transition-colors flex items-center space-x-1 border border-slate-200/80 dark:border-white/[0.06]"
+          className="px-3.5 py-1.5 bg-slate-100 dark:bg-[#17243C] hover:bg-slate-200 dark:hover:bg-[#1E2E4A] text-slate-700 dark:text-[#B8C3D9] text-xs font-semibold rounded-full flex items-center space-x-1 border border-slate-200/80 dark:border-white/[0.06]"
         >
           <span>Customer View</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
-      </motion.div>
+      </div>
 
       {/* Profile Header & Photo Editor */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[32px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-4 text-center relative overflow-hidden transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-5 rounded-[32px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-4 text-center relative overflow-hidden"
       >
         <div className="relative inline-block mx-auto">
           <img
@@ -140,13 +133,10 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             <span className="text-[10px] text-slate-500 dark:text-[#7F8DA8]">Accept Rate</span>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Earnings & Instant Payout Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+      <div
         className="bg-gradient-to-tr from-slate-900 via-slate-800 to-[#3F73C7] dark:from-[#0E1628] dark:via-[#131E33] dark:to-[#17243C] p-5 rounded-[32px] text-white float-shadow space-y-3 border border-white/10"
       >
         <div className="flex items-center justify-between text-xs text-slate-300 dark:text-[#B8C3D9]">
@@ -163,34 +153,26 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
           </div>
           <button
             onClick={handleInstantPayout}
-            className="px-4 py-2.5 bg-white dark:bg-[#21C7F6] text-slate-900 dark:text-[#070B14] text-xs font-semibold rounded-full float-shadow active:scale-95 transition-all hover:bg-slate-100 dark:hover:bg-[#21C7F6]/90 flex items-center space-x-1"
+            className="px-4 py-2.5 bg-white dark:bg-[#21C7F6] text-slate-900 dark:text-[#070B14] text-xs font-semibold rounded-full float-shadow active:scale-95 hover:bg-slate-100 dark:hover:bg-[#21C7F6]/90 flex items-center space-x-1"
           >
             <DollarSign className="w-4 h-4 text-[#3F73C7] dark:text-[#070B14]" />
             <span>Instant Payout</span>
           </button>
         </div>
 
-        <AnimatePresence>
-          {payoutSuccess && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="bg-emerald-500 dark:bg-[#2DD36F] text-white dark:text-[#070B14] p-2.5 rounded-2xl text-xs font-semibold text-center flex items-center justify-center space-x-1.5"
-            >
-              <Check className="w-4 h-4" />
-              <span>$1,280.00 payout sent to Visa Debit (••8842)!</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+        {payoutSuccess && (
+          <div
+            className="bg-emerald-500 dark:bg-[#2DD36F] text-white dark:text-[#070B14] p-2.5 rounded-2xl text-xs font-semibold text-center flex items-center justify-center space-x-1.5"
+          >
+            <Check className="w-4 h-4" />
+            <span>$1,280.00 payout sent to Visa Debit (••8842)!</span>
+          </div>
+        )}
+      </div>
 
       {/* Appearance Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3 transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
       >
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-[#7F8DA8]">
           Appearance
@@ -235,14 +217,11 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             <span className="text-xs text-center leading-tight">Follow System</span>
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Business Info & Bio */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.24 }}
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3 transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
       >
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-[#7F8DA8]">
@@ -288,14 +267,11 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             <span className="font-semibold text-slate-900 dark:text-white">{provider.vehicle}</span>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Specialties & Tags */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.30 }}
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3 transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
       >
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-[#7F8DA8]">
           Specialized Skillset
@@ -311,14 +287,11 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             </span>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Working Radius Config */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.36 }}
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3 transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -344,14 +317,11 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
         <p className="text-[11px] text-slate-500 dark:text-[#7F8DA8]">
           You will automatically receive job requests within {workingRadius} km from your current live GPS coordinates.
         </p>
-      </motion.div>
+      </div>
 
       {/* Portfolio Showcase */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.42 }}
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3 transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -385,14 +355,11 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Security & Notifications */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.50 }}
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3 transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
       >
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-[#7F8DA8]">
           Notifications
@@ -414,14 +381,11 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             <div className={`w-4 h-4 bg-white rounded-full transition-transform ${pushAlerts ? 'translate-x-5' : 'translate-x-0'}`} />
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Account Settings & Logout */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.54 }}
-        className="bg-white dark:bg-[#131E33] p-4 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-2 transition-colors"
+      <div
+        className="bg-white dark:bg-[#131E33] p-4 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-2"
       >
         <button
           onClick={onLogout}
@@ -430,7 +394,7 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
           <LogOut className="w-4 h-4" />
           <span>Logout Partner Account</span>
         </button>
-      </motion.div>
+      </div>
     </div>
   );
 };

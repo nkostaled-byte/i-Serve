@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { 
   AppScreen, 
   ServiceCategory, 
@@ -245,24 +244,23 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F6F8FB] dark:bg-[#0B0F17] text-slate-800 dark:text-white antialiased relative selection:bg-[#27C2D4]/20 selection:text-[#27C2D4] transition-colors duration-200">
       <div className="grid grid-cols-1 grid-rows-1 min-h-screen overflow-x-hidden">
-        <AnimatePresence>
-          {/* 1. Installation Wall Screen */}
-          {currentScreen === 'install_wall' && (
-            <motion.div key="install_wall" style={{ zIndex: zIndexMap.install_wall }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+        {/* 1. Installation Wall Screen */}
+        {currentScreen === 'install_wall' && (
+          <div key="install_wall" style={{ zIndex: zIndexMap.install_wall }} className="col-start-1 row-start-1 w-full min-h-screen">
             <InstallPWA onProceed={() => setEntryScreen('splash')} />
-          </motion.div>
+          </div>
         )}
 
         {/* 2. Animated Splash Screen */}
         {currentScreen === 'splash' && (
-          <motion.div key="splash" style={{ zIndex: zIndexMap.splash }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="splash" style={{ zIndex: zIndexMap.splash }} className="col-start-1 row-start-1 w-full min-h-screen">
             <SplashScreen onComplete={() => setEntryScreen('choose_experience')} />
-          </motion.div>
+          </div>
         )}
 
         {/* 3. Choose Experience Screen */}
         {currentScreen === 'choose_experience' && (
-          <motion.div key="choose_experience" style={{ zIndex: zIndexMap.choose_experience }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="choose_experience" style={{ zIndex: zIndexMap.choose_experience }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ChooseExperience
               onSelectRole={(role) => {
                 if (role === 'customer') {
@@ -272,34 +270,34 @@ export default function App() {
                 }
               }}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 4. Customer Login */}
         {currentScreen === 'customer_login' && (
-          <motion.div key="customer_login" style={{ zIndex: zIndexMap.customer_login }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="customer_login" style={{ zIndex: zIndexMap.customer_login }} className="col-start-1 row-start-1 w-full min-h-screen">
             <CustomerAuth
               onLoginSuccess={() => handleSwitchRole('customer')}
               onGoToRegister={() => setEntryScreen('customer_register')}
               onBack={() => setEntryScreen('choose_experience')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 5. Provider Login */}
         {currentScreen === 'provider_login' && (
-          <motion.div key="provider_login" style={{ zIndex: zIndexMap.provider_login }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="provider_login" style={{ zIndex: zIndexMap.provider_login }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ProviderAuth
               onLoginSuccess={() => handleSwitchRole('provider')}
               onGoToRegister={() => setEntryScreen('provider_register')}
               onBack={() => setEntryScreen('choose_experience')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 6. Customer Registration Flow */}
         {currentScreen === 'customer_register' && (
-          <motion.div key="customer_register" style={{ zIndex: zIndexMap.customer_register }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="customer_register" style={{ zIndex: zIndexMap.customer_register }} className="col-start-1 row-start-1 w-full min-h-screen">
             <CustomerRegistration
               onComplete={(newUser) => {
                 handleUserUpdate(newUser);
@@ -307,12 +305,12 @@ export default function App() {
               }}
               onBack={() => setEntryScreen('customer_login')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 7. Provider Registration Flow */}
         {currentScreen === 'provider_register' && (
-          <motion.div key="provider_register" style={{ zIndex: zIndexMap.provider_register }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="provider_register" style={{ zIndex: zIndexMap.provider_register }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ProviderRegistration
               onComplete={(newProv) => {
                 setProviderUser((prev) => ({ ...prev, ...newProv }));
@@ -320,19 +318,15 @@ export default function App() {
               }}
               onBack={() => setEntryScreen('provider_login')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 8. Main Home Screen */}
         {(currentScreen === 'home' || (currentScreen === 'service_details' && (customerStack[customerStack.length - 2] || 'home') === 'home')) && (
-          <motion.div 
+          <div 
             key="home" 
             style={{ zIndex: zIndexMap.home }}
-            initial={{ opacity: 0, y: 12 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className={`col-start-1 row-start-1 w-full min-h-screen ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none transition-all duration-300" : "transition-all duration-300"}`}
+            className={`col-start-1 row-start-1 w-full min-h-screen bg-[#F6F8FB] dark:bg-[#0B0F17] ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none" : ""}`}
           >
             <HomeScreen
               user={user}
@@ -358,14 +352,14 @@ export default function App() {
                 setCustomerStack(['home', 'live_tracking']);
               }}
             />
-          </motion.div>
+          </div>
         )}
 
 
 
         {/* 10. Service Request Bottom Sheet */}
         {currentScreen === 'request_sheet' && selectedCategory && (
-          <motion.div key="request_sheet" style={{ zIndex: zIndexMap.request_sheet }} className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="request_sheet" style={{ zIndex: zIndexMap.request_sheet }} className="col-start-1 row-start-1 w-full min-h-screen z-50">
             <ServiceRequestBottomSheet
               category={selectedCategory}
               subService={selectedSubService || undefined}
@@ -373,34 +367,34 @@ export default function App() {
               onClose={() => goBackCustomer()}
               onSubmitRequest={handleSubmitRequest}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 11. Searching Experience (Animated Radar) */}
         {currentScreen === 'searching' && selectedCategory && (
-          <motion.div key="searching" style={{ zIndex: zIndexMap.searching }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="searching" style={{ zIndex: zIndexMap.searching }} className="col-start-1 row-start-1 w-full min-h-screen">
             <SearchingScreen
               category={selectedCategory}
               availableProviders={providers}
               onProviderFound={handleProviderFound}
               onCancel={() => goBackCustomer()}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 12. Provider Accepted Modal */}
         {currentScreen === 'provider_accepted' && selectedProvider && (
-          <motion.div key="provider_accepted" style={{ zIndex: zIndexMap.provider_accepted }} className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="provider_accepted" style={{ zIndex: zIndexMap.provider_accepted }} className="col-start-1 row-start-1 w-full min-h-screen z-50">
             <ProviderAcceptedModal
               provider={selectedProvider}
               onTrackOnMap={() => setCustomerStack(['home', 'live_tracking'])}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 13. Live GPS Tracking Map */}
         {currentScreen === 'live_tracking' && selectedProvider && activeBooking && (
-          <motion.div key="live_tracking" style={{ zIndex: zIndexMap.live_tracking }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="live_tracking" style={{ zIndex: zIndexMap.live_tracking }} className="col-start-1 row-start-1 w-full min-h-screen">
             <LiveTrackingMap
               provider={selectedProvider}
               bookingRequest={activeBooking}
@@ -433,12 +427,12 @@ export default function App() {
                 }
               }}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 14. Chat Screen */}
         {currentScreen === 'chat' && selectedProvider && (
-          <motion.div key="chat" style={{ zIndex: zIndexMap.chat }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="chat" style={{ zIndex: zIndexMap.chat }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ChatScreen
               provider={selectedProvider}
               initialMessages={chatMessages}
@@ -450,12 +444,12 @@ export default function App() {
                 }
               }}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 15. Job Completed Celebration Modal */}
         {currentScreen === 'job_completed' && selectedProvider && activeBooking && (
-          <motion.div key="job_completed" style={{ zIndex: zIndexMap.job_completed }} className="col-start-1 row-start-1 w-full min-h-screen z-50" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="job_completed" style={{ zIndex: zIndexMap.job_completed }} className="col-start-1 row-start-1 w-full min-h-screen z-50">
             <JobCompletedModal
               bookingRequest={activeBooking}
               provider={selectedProvider}
@@ -474,19 +468,15 @@ export default function App() {
                 }
               }}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 16. Customer Profile & Settings */}
         {(currentScreen === 'customer_profile' || (currentScreen === 'service_details' && customerStack[customerStack.length - 2] === 'customer_profile')) && (
-          <motion.div 
+          <div 
             key="customer_profile" 
             style={{ zIndex: zIndexMap.customer_profile }}
-            initial={{ opacity: 0, y: 12 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className={`col-start-1 row-start-1 w-full min-h-screen ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none transition-all duration-300" : "transition-all duration-300"}`}
+            className={`col-start-1 row-start-1 w-full min-h-screen bg-[#F6F8FB] dark:bg-[#0B0F17] ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none" : ""}`}
           >
             <CustomerProfile
               user={user}
@@ -494,12 +484,12 @@ export default function App() {
               onLogout={() => setEntryScreen('choose_experience')}
               onSwitchRole={() => handleSwitchRole('provider')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 17. Provider Dashboard */}
         {currentScreen === 'provider_dashboard' && selectedProvider && (
-          <motion.div key="provider_dashboard" style={{ zIndex: zIndexMap.provider_dashboard }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="provider_dashboard" style={{ zIndex: zIndexMap.provider_dashboard }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ProviderDashboard
               provider={selectedProvider}
               activeRequests={requestsHistory}
@@ -513,12 +503,12 @@ export default function App() {
               }}
               onSwitchRole={() => handleSwitchRole('customer')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 17b. Provider Jobs Screen */}
         {currentScreen === 'provider_jobs' && (
-          <motion.div key="provider_jobs" style={{ zIndex: zIndexMap.provider_jobs }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="provider_jobs" style={{ zIndex: zIndexMap.provider_jobs }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ProviderJobs
               allRequests={requestsHistory}
               onAcceptJob={(req) => {
@@ -538,39 +528,35 @@ export default function App() {
                 navigateProvider('live_tracking');
               }}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 17c. Provider Messages Screen */}
         {currentScreen === 'provider_messages' && (
-          <motion.div key="provider_messages" style={{ zIndex: zIndexMap.provider_messages }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="provider_messages" style={{ zIndex: zIndexMap.provider_messages }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ProviderMessages
               onOpenChat={() => navigateProvider('chat')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 17d. Provider Profile Screen */}
         {currentScreen === 'provider_profile' && selectedProvider && (
-          <motion.div key="provider_profile" style={{ zIndex: zIndexMap.provider_profile }} className="col-start-1 row-start-1 w-full min-h-screen" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+          <div key="provider_profile" style={{ zIndex: zIndexMap.provider_profile }} className="col-start-1 row-start-1 w-full min-h-screen">
             <ProviderProfile
               provider={selectedProvider}
               onSwitchRole={() => handleSwitchRole('customer')}
               onLogout={() => setEntryScreen('choose_experience')}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 18. Requests History Screen */}
         {(currentScreen === 'requests_history' || (currentScreen === 'service_details' && customerStack[customerStack.length - 2] === 'requests_history')) && (
-          <motion.div 
+          <div 
             key="requests_history" 
             style={{ zIndex: zIndexMap.requests_history }}
-            initial={{ opacity: 0, y: 12 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className={`col-start-1 row-start-1 w-full min-h-screen ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none transition-all duration-300" : "transition-all duration-300"}`}
+            className={`col-start-1 row-start-1 w-full min-h-screen bg-[#F6F8FB] dark:bg-[#0B0F17] ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none" : ""}`}
           >
             <RequestsHistoryScreen
               requests={requestsHistory}
@@ -581,19 +567,15 @@ export default function App() {
               }}
               onBack={() => goBackCustomer()}
             />
-          </motion.div>
+          </div>
         )}
 
         {/* 19. Messages List Screen */}
         {(currentScreen === 'messages_list' || (currentScreen === 'service_details' && customerStack[customerStack.length - 2] === 'messages_list')) && (
-          <motion.div 
+          <div 
             key="messages_list" 
             style={{ zIndex: zIndexMap.messages_list }}
-            initial={{ opacity: 0, y: 12 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className={`col-start-1 row-start-1 w-full min-h-screen ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none transition-all duration-300" : "transition-all duration-300"}`}
+            className={`col-start-1 row-start-1 w-full min-h-screen bg-[#F6F8FB] dark:bg-[#0B0F17] ${currentScreen === 'service_details' ? "filter blur-sm pointer-events-none" : ""}`}
           >
             <MessagesListScreen
               providers={providers}
@@ -603,21 +585,18 @@ export default function App() {
               }}
               onBack={() => goBackCustomer()}
             />
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
-    </div>
+      </div>
 
       {/* 9. Service Details Modal (Independent Overlay) */}
-      <AnimatePresence>
-        {currentScreen === 'service_details' && selectedCategory && (
-          <ServiceDetailsModal
-            category={selectedCategory}
-            onClose={() => goBackCustomer()}
-            onProceedToRequest={handleProceedToRequestSheet}
-          />
-        )}
-      </AnimatePresence>
+      {currentScreen === 'service_details' && selectedCategory && (
+        <ServiceDetailsModal
+          category={selectedCategory}
+          onClose={() => goBackCustomer()}
+          onProceedToRequest={handleProceedToRequestSheet}
+        />
+      )}
 
       {/* Floating Frosted Glass Bottom Navigation Dock */}
       <FloatingBottomDock

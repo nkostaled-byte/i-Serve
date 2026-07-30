@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { X, ShieldCheck, CheckCircle2, Clock, ArrowRight } from 'lucide-react';
 import { ServiceCategory, SubService } from '../types';
 import { ServiceIllustration } from './ServiceIllustrations';
@@ -26,17 +25,10 @@ export const ServiceDetailsModal: React.FC<ServiceDetailsModalProps> = ({
   }));
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+    <div 
       className="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/70 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
     >
-      <motion.div
-        initial={{ y: '100%', opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: '100%', opacity: 0 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+      <div
         className="bg-[#F6F8FB] dark:bg-[#070B14] w-full max-w-md h-[90vh] sm:h-[85vh] rounded-t-[32px] sm:rounded-[32px] flex flex-col justify-between overflow-hidden relative shadow-2xl border border-transparent dark:border-white/[0.06]"
       >
         {/* Top Header Controls */}
@@ -129,7 +121,7 @@ export const ServiceDetailsModal: React.FC<ServiceDetailsModalProps> = ({
             </div>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
