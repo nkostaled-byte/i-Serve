@@ -156,7 +156,7 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             className="px-4 py-2.5 bg-white dark:bg-[#21C7F6] text-slate-900 dark:text-[#070B14] text-xs font-semibold rounded-full float-shadow active:scale-95 hover:bg-slate-100 dark:hover:bg-[#21C7F6]/90 flex items-center space-x-1"
           >
             <DollarSign className="w-4 h-4 text-[#3F73C7] dark:text-[#070B14]" />
-            <span>Instant Payout</span>
+            <span>Withdraw</span>
           </button>
         </div>
 
@@ -165,7 +165,7 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
             className="bg-emerald-500 dark:bg-[#2DD36F] text-white dark:text-[#070B14] p-2.5 rounded-2xl text-xs font-semibold text-center flex items-center justify-center space-x-1.5"
           >
             <Check className="w-4 h-4" />
-            <span>$1,280.00 payout sent to Visa Debit (••8842)!</span>
+            <span>$1,280.00 withdrawal sent to Visa Debit (••8842)!</span>
           </div>
         )}
       </div>
@@ -219,56 +219,6 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
         </div>
       </div>
 
-      {/* Business Info & Bio */}
-      <div
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
-      >
-        <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-[#7F8DA8]">
-            About & Business Info
-          </h3>
-          <button
-            onClick={() => setIsEditingBio(!isEditingBio)}
-            className="text-xs font-semibold text-[#3F73C7] dark:text-[#21C7F6] flex items-center space-x-1"
-          >
-            <Edit3 className="w-3.5 h-3.5" />
-            <span>{isEditingBio ? 'Save' : 'Edit Bio'}</span>
-          </button>
-        </div>
-
-        {isEditingBio ? (
-          <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            className="w-full bg-slate-50 dark:bg-[#0E1628] p-3 rounded-2xl text-xs text-slate-800 dark:text-white border border-slate-200 dark:border-white/[0.06] focus:outline-none focus:ring-2 focus:ring-[#3F73C7]/20"
-            rows={3}
-          />
-        ) : (
-          <p className="text-xs text-slate-600 dark:text-[#B8C3D9] leading-relaxed italic">
-            "{bio}"
-          </p>
-        )}
-
-        <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/[0.06] text-xs">
-          <div className="flex items-center justify-between text-slate-700 dark:text-[#B8C3D9]">
-            <span className="text-slate-400 dark:text-[#7F8DA8]">Primary Category</span>
-            <span className="font-semibold text-slate-900 dark:text-white bg-slate-100 dark:bg-[#0E1628] px-2.5 py-0.5 rounded-full">
-              {provider.category}
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between text-slate-700 dark:text-[#B8C3D9]">
-            <span className="text-slate-400 dark:text-[#7F8DA8]">Hourly Rate</span>
-            <span className="font-semibold text-slate-900 dark:text-white">${provider.hourlyRate}/hr</span>
-          </div>
-
-          <div className="flex items-center justify-between text-slate-700 dark:text-[#B8C3D9]">
-            <span className="text-slate-400 dark:text-[#7F8DA8]">Service Vehicle</span>
-            <span className="font-semibold text-slate-900 dark:text-white">{provider.vehicle}</span>
-          </div>
-        </div>
-      </div>
-
       {/* Specialties & Tags */}
       <div
         className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
@@ -285,74 +235,6 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
               <Check className="w-3 h-3 text-[#3F73C7] dark:text-[#21C7F6]" />
               <span>{skill}</span>
             </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Working Radius Config */}
-      <div
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <MapPin className="w-4 h-4 text-[#3F73C7] dark:text-[#21C7F6]" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#B8C3D9]">
-              Working Radius
-            </h3>
-          </div>
-          <span className="text-xs font-bold text-[#3F73C7] dark:text-[#21C7F6] bg-[#3F73C7]/10 dark:bg-[#21C7F6]/10 px-2.5 py-0.5 rounded-full">
-            {workingRadius} km coverage
-          </span>
-        </div>
-
-        <input
-          type="range"
-          min={5}
-          max={50}
-          value={workingRadius}
-          onChange={(e) => setWorkingRadius(Number(e.target.value))}
-          className="w-full accent-[#3F73C7] dark:accent-[#21C7F6] cursor-pointer"
-        />
-
-        <p className="text-[11px] text-slate-500 dark:text-[#7F8DA8]">
-          You will automatically receive job requests within {workingRadius} km from your current live GPS coordinates.
-        </p>
-      </div>
-
-      {/* Portfolio Showcase */}
-      <div
-        className="bg-white dark:bg-[#131E33] p-5 rounded-[28px] card-shadow border border-slate-100 dark:border-white/[0.06] space-y-3"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <ImageIcon className="w-4 h-4 text-[#3F73C7] dark:text-[#21C7F6]" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#B8C3D9]">
-              Work Portfolio ({portfolio.length})
-            </h3>
-          </div>
-
-          <button
-            onClick={handleAddPortfolioSample}
-            className="text-xs font-semibold text-[#3F73C7] dark:text-[#21C7F6] hover:underline flex items-center space-x-1"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Add Work Photo</span>
-          </button>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          {portfolio.map((item) => (
-            <div key={item.id} className="relative group rounded-2xl overflow-hidden aspect-square border border-slate-100 dark:border-white/[0.06]">
-              <img
-                src={item.image}
-                alt={item.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2 flex items-end">
-                <span className="text-[9px] text-white font-medium line-clamp-2">{item.title}</span>
-              </div>
-            </div>
           ))}
         </div>
       </div>
@@ -392,7 +274,7 @@ export const ProviderProfile: React.FC<ProviderProfileProps> = ({
           className="w-full p-3 bg-rose-50 dark:bg-[#FF5D73]/10 hover:bg-rose-100 dark:hover:bg-[#FF5D73]/20 text-rose-600 dark:text-[#FF5D73] rounded-2xl font-semibold text-xs transition-colors flex items-center justify-center space-x-2"
         >
           <LogOut className="w-4 h-4" />
-          <span>Logout Partner Account</span>
+          <span>Logout</span>
         </button>
       </div>
     </div>

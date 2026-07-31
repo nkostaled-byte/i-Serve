@@ -29,6 +29,7 @@ export interface SavedLocation {
   label: string;
   address: string;
   isDefault?: boolean;
+  coords?: { lat: number; lng: number };
 }
 
 export interface UserProfile {
@@ -101,7 +102,7 @@ export interface ServiceBookingRequest {
   notes: string;
   paymentMethod: 'paystack_card' | 'paystack_eft' | 'paystack_mobile' | 'apple_pay' | 'credit_card' | 'cash';
   amount: number;
-  status: 'pending' | 'searching' | 'accepted' | 'in_progress' | 'completed' | 'cancelled';
+  status: 'pending' | 'searching' | 'accepted' | 'on_the_way' | 'arrived' | 'in_progress' | 'completed' | 'cancelled';
   createdAt: string;
   scheduledTime?: string;
   userCoords: { lat: number; lng: number };

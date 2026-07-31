@@ -10,9 +10,9 @@ export const INITIAL_CUSTOMER: UserProfile = {
   avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
   role: 'customer',
   savedLocations: [
-    { id: 'loc_1', label: 'Home', address: '125 Main Street, Apt 4B', isDefault: true },
-    { id: 'loc_2', label: 'Work', address: '45 Business Ave, Suite 1200' },
-    { id: 'loc_3', label: "Mom's House", address: '782 Sunset Boulevard' }
+    { id: 'loc_1', label: 'Home', address: '125 Main Street, Apt 4B', isDefault: true, coords: { lat: -26.2041, lng: 28.0473 } },
+    { id: 'loc_2', label: 'Work', address: '45 Business Ave, Suite 1200', coords: { lat: -26.1950, lng: 28.0580 } },
+    { id: 'loc_3', label: "Mom's House", address: '782 Sunset Boulevard', coords: { lat: -26.2120, lng: 28.0350 } }
   ],
   notificationsEnabled: true,
 };

@@ -9,18 +9,7 @@ interface ServiceGridProps {
 
 export const ServiceGrid: React.FC<ServiceGridProps> = ({ categories, onSelectCategory }) => {
   return (
-    <div className="my-6">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h2 className="text-xl font-serif text-slate-900 dark:text-white font-normal">
-            Explore Services
-          </h2>
-          <p className="text-xs text-slate-400 dark:text-[#7F8DA8] font-sans">
-            Guaranteed upfront rates & vetted local experts
-          </p>
-        </div>
-      </div>
-
+    <div>
       {/* Exactly 3 columns x 3 rows grid = 9 cards */}
       <div className="grid grid-cols-3 gap-3">
         {categories.map((cat, idx) => (
@@ -35,13 +24,10 @@ export const ServiceGrid: React.FC<ServiceGridProps> = ({ categories, onSelectCa
               <ServiceIllustration categoryKey={cat.illustrationKey} className="w-14 h-14" />
             </div>
 
-            {/* Title & Subtitle */}
-            <h3 className="font-semibold text-slate-900 dark:text-white text-xs mt-2 leading-tight line-clamp-1">
+            {/* Title */}
+            <h3 className="font-semibold text-slate-900 dark:text-white text-xs mt-2.5 leading-tight line-clamp-1 pb-1">
               {cat.title}
             </h3>
-            <p className="text-[10px] text-slate-400 dark:text-[#7F8DA8] font-sans mt-0.5 leading-snug line-clamp-1">
-              {cat.subtitle}
-            </p>
           </div>
         ))}
       </div>

@@ -90,38 +90,33 @@ export const ProviderDashboard: React.FC<ProviderDashboardProps> = ({
         </button>
       </div>
 
-      {/* Availability Status Banner */}
-      <div
-        className={`p-4 rounded-[28px] card-shadow flex items-center justify-between text-white transition-all duration-300 ${
-          isOnline ? 'bg-gradient-to-r from-emerald-600 to-teal-700' : 'bg-slate-800'
-        }`}
-      >
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center">
-            <Power className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <div className="flex items-center space-x-1.5">
-              <h3 className="font-semibold text-sm">
-                {isOnline ? 'Active & Ready for Dispatches' : 'Offline Mode'}
-              </h3>
-              {isOnline && <span className="w-2 h-2 rounded-full bg-emerald-300" />}
-            </div>
-            <p className="text-[11px] text-white/80">
-              {isOnline ? 'Receiving customer service dispatches nearby' : 'Turn online to receive new jobs'}
-            </p>
-          </div>
-        </div>
-
+      {/* Go Online / Offline Toggle Button */}
+      <div className="pt-1">
         <button
           onClick={() => setIsOnline(!isOnline)}
-          className={`w-14 h-8 rounded-full p-1 transition-colors ${
-            isOnline ? 'bg-white/30' : 'bg-slate-600'
+          className={`w-full py-4 px-6 rounded-2xl flex items-center justify-between shadow-lg transition-all active:scale-[0.99] ${
+            isOnline 
+              ? 'bg-slate-900 dark:bg-slate-800 text-white border border-slate-800' 
+              : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/25'
           }`}
         >
-          <div className={`w-6 h-6 rounded-full bg-white transition-transform duration-300 ${
-            isOnline ? 'translate-x-6' : 'translate-x-0'
-          }`} />
+          <div className="flex items-center space-x-3">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isOnline ? 'bg-white/10' : 'bg-white/20'}`}>
+              <Power className="w-5 h-5 text-white" />
+            </div>
+            <div className="text-left">
+              <div className="text-xs font-medium text-white/80">Status</div>
+              <div className="text-base font-bold text-white">
+                {isOnline ? 'Go offline' : 'Go online'}
+              </div>
+            </div>
+          </div>
+
+          <div className={`w-14 h-8 rounded-full p-1 transition-colors flex items-center ${
+            isOnline ? 'bg-emerald-500 justify-end' : 'bg-slate-700 justify-start'
+          }`}>
+            <div className="w-6 h-6 rounded-full bg-white shadow-md transition-transform" />
+          </div>
         </button>
       </div>
 

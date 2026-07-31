@@ -5,6 +5,7 @@ import {
   ServiceProvider, 
   UserProfile, 
   ServiceBookingRequest,
+  SubService,
   ChatMessage
 } from './types';
 import { 
@@ -38,11 +39,25 @@ import { ProviderMessages } from './components/ProviderMessages';
 import { ProviderProfile } from './components/ProviderProfile';
 import { RequestsHistoryScreen } from './components/RequestsHistoryScreen';
 import { MessagesListScreen } from './components/MessagesListScreen';
+import { RequestSummaryModal } from './components/RequestSummaryModal';
 import { FloatingBottomDock } from './components/FloatingBottomDock';
+
+const checkIsPWAInstalled = () => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any)?.standalone === true;
+    return isStandalone;
+  } catch (e) {
+    return false;
+  }
+};
 
 export default function App() {
   // Navigation Stacks & Active Role
-  const [entryScreen, setEntryScreen] = useState<AppScreen | null>('install_wall');
+  const [entryScreen, setEntryScreen] = useState<AppScreen | null>(() => {
+    return checkIsPWAInstalled() ? 'splash' : 'install_wall';
+  });
   const [activeRole, setActiveRole] = useState<'customer' | 'provider'>('customer');
 
   const [customerStack, setCustomerStack] = useState<AppScreen[]>(['home']);
@@ -55,6 +70,7 @@ export default function App() {
   const [selectedSubService, setSelectedSubService] = useState<import('./types').SubService | null>(null);
   const [selectedProvider, setSelectedProvider] = useState<ServiceProvider | null>(MOCK_PROVIDERS[0]);
   const [activeBooking, setActiveBooking] = useState<ServiceBookingRequest | null>(RECENT_REQUESTS[0]);
+  const [summaryModalRequest, setSummaryModalRequest] = useState<ServiceBookingRequest | null>(null);
   
   const [categories] = useState<ServiceCategory[]>(SERVICE_CATEGORIES);
   const [providers] = useState<ServiceProvider[]>(MOCK_PROVIDERS);
@@ -151,9 +167,15 @@ export default function App() {
     setUser((prev) => ({ ...prev, ...updated }));
   };
 
-  const handleSelectCategory = (cat: ServiceCategory) => {
+  const handleSelectCategory = (cat: ServiceCategory, subSrv?: SubService) => {
     setSelectedCategory(cat);
-    navigateCustomer('service_details');
+    if (subSrv) {
+      setSelectedSubService(subSrv);
+      navigateCustomer('request_sheet');
+    } else {
+      setSelectedSubService(undefined);
+      navigateCustomer('service_details');
+    }
   };
 
   const handleProceedToRequestSheet = (subSrv?: import('./types').SubService) => {
@@ -167,6 +189,7 @@ export default function App() {
     paymentMethod: 'paystack_card' | 'paystack_eft' | 'paystack_mobile' | 'apple_pay' | 'credit_card' | 'cash'; 
     amount: number;
     subServiceTitle?: string;
+    coords?: { lat: number; lng: number };
   }) => {
     const cat = selectedCategory || SERVICE_CATEGORIES[0];
     const subTitle = details.subServiceTitle || selectedSubService?.name || `${cat.title} Service`;
@@ -184,7 +207,7 @@ export default function App() {
       amount: details.amount,
       status: 'searching',
       createdAt: 'Just now',
-      userCoords: { lat: -26.2041, lng: 28.0473 },
+      userCoords: details.coords || { lat: -26.2041, lng: 28.0473 },
       providerCoords: { lat: -26.1980, lng: 28.0530 },
     };
 
@@ -247,7 +270,12 @@ export default function App() {
         {/* 1. Installation Wall Screen */}
         {currentScreen === 'install_wall' && (
           <div key="install_wall" style={{ zIndex: zIndexMap.install_wall }} className="col-start-1 row-start-1 w-full min-h-screen">
-            <InstallPWA onProceed={() => setEntryScreen('splash')} />
+            <InstallPWA onProceed={() => {
+              try {
+                localStorage.setItem('is_pwa_installed', 'true');
+              } catch (e) {}
+              setEntryScreen('splash');
+            }} />
           </div>
         )}
 
@@ -347,8 +375,11 @@ export default function App() {
                 handleSelectCategory(elec);
               }}
               onViewRequestDetails={(req) => {
+                setSummaryModalRequest(req);
+              }}
+              onTrackLive={(req) => {
                 setActiveBooking(req);
-                if (req.provider) setSelectedProvider(req.provider);
+                setSelectedProvider(req.provider || MOCK_PROVIDERS[0]);
                 setCustomerStack(['home', 'live_tracking']);
               }}
             />
@@ -561,9 +592,7 @@ export default function App() {
             <RequestsHistoryScreen
               requests={requestsHistory}
               onSelectRequest={(req) => {
-                setActiveBooking(req);
-                if (req.provider) setSelectedProvider(req.provider);
-                navigateCustomer('live_tracking');
+                setSummaryModalRequest(req);
               }}
               onBack={() => goBackCustomer()}
             />
@@ -595,6 +624,19 @@ export default function App() {
           category={selectedCategory}
           onClose={() => goBackCustomer()}
           onProceedToRequest={handleProceedToRequestSheet}
+        />
+      )}
+
+      {/* Request Summary & Details Modal */}
+      {summaryModalRequest && (
+        <RequestSummaryModal
+          request={summaryModalRequest}
+          onClose={() => setSummaryModalRequest(null)}
+          onTrackLive={(req) => {
+            setActiveBooking(req);
+            if (req.provider) setSelectedProvider(req.provider);
+            setCustomerStack(['home', 'live_tracking']);
+          }}
         />
       )}
 
