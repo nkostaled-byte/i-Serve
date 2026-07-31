@@ -493,17 +493,11 @@ export const CustomerProfile: React.FC<CustomerProfileProps> = ({
             <span className="text-slate-700 dark:text-[#C7D2E0] font-medium">Push Dispatch Alerts</span>
             <button
               onClick={async () => {
-                if (!pushAlerts) {
-                  const granted = await requestNotificationPermission();
-                  if (granted) {
-                    setPushAlerts(true);
-                    onUpdateUser({ notificationsEnabled: true });
-                  } else {
-                    alert('Please enable notifications in your browser settings.');
-                  }
-                } else {
-                  setPushAlerts(false);
-                  onUpdateUser({ notificationsEnabled: false });
+                const nextState = !pushAlerts;
+                setPushAlerts(nextState);
+                onUpdateUser({ notificationsEnabled: nextState });
+                if (nextState) {
+                  await requestNotificationPermission();
                 }
               }}
               className={`w-10 h-5 rounded-full transition-colors relative p-0.5 ${pushAlerts ? 'bg-[#27C2D4] dark:bg-[#2EC5F4]' : 'bg-slate-300 dark:bg-slate-700'}`}
